@@ -1,13 +1,14 @@
 # git-crypt-demo
 Demo for git crypt
 
+## Introduction
 This demo shows how to make [git-crypt](https://github.com/AGWA/git-crypt) work with github workflows using [https://github.com/sliteteam/github-action-git-crypt-unlock](this github workflow).  This is a seamless solution with (almost) reproducible solution for secrets management:
 
 - Secrets are stored encrypted in the git repository (on github) and are specified via `.gitattributes`
 - Public keys that have access to secrets are stored in the git repository and used to encrypt the secrets (which are stored in `.git-crypt/keys/`).
 - Secrets are automatically decrypted upon checkout
 
-Here are the steps:
+## How to Use
 
 1. Install gpg on your os (`brew install gpg` or `sudo apt-get gpg`) and create a user (if you haven't done so already).  We recommend no passphrase and a simple email address.
    ```
@@ -40,6 +41,15 @@ Here are the steps:
 6. After using your secrets on the workflow, remove the secrets file (for extra security).
 
 This repo (intentionally) exposes the secret in the [github workflow](https://github.com/tianhuil/git-crypt-demo/runs/1545130895?check_suite_focus=true) but this [remains encrypted in git](https://github.com/tianhuil/git-crypt-demo/blob/main/file.secret).
+
+## View gpg users
+To easily check which users have been added to git crypt, add the alias
+```
+git config [--global] alias.crypt-users "! git log  .git-crypt/keys/*/*/*.gpg | egrep '\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b'"
+```
+to add the config either locally or globally.
+
+Based on [https://github.com/AGWA/git-crypt/issues/39](this Github Issue).
 
 ## Resources:
 -[GPG Cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/)
