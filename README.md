@@ -1,5 +1,5 @@
 # git-crypt-demo
-demo for git crypt
+Demo for git crypt
 
 This demo shows how to make [git-crypt](https://github.com/AGWA/git-crypt) work with github workflows using [https://github.com/sliteteam/github-action-git-crypt-unlock](this github workflow).  This is a seamless solution with (almost) reproducible solution for secrets management:
 
@@ -39,7 +39,7 @@ Here are the steps:
 5. On github workflow, use `sliteteam/github-action-git-crypt-unlock@1.0.2` and supply `GIT_CRYPT_KEY` from github secrets
 6. After using your secrets on the workflow, remove the secrets file (for extra security).
 
-This repo (intentionally) exposes the secret in the [github workflow](https://github.com/tianhuil/git-crypt-demo/runs/1545130895?check_suite_focus=true) but this remains encrypted in [git](https://github.com/tianhuil/git-crypt-demo/blob/main/file.secret).
+This repo (intentionally) exposes the secret in the [github workflow](https://github.com/tianhuil/git-crypt-demo/runs/1545130895?check_suite_focus=true) but this [remains encrypted in git](https://github.com/tianhuil/git-crypt-demo/blob/main/file.secret).
 
 ## Resources:
 -[GPG Cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/)
