@@ -36,8 +36,8 @@ Here are the steps:
    git-crypt export-key ./tmp-key && cat ./tmp-key | base64 | pbcopy && rm -f ./tmp-key
    ```
    Paste that into the secrets of your repository (the one for this repository is at https://github.com/tianhuil/git-crypt-demo/settings/secrets/  actions) as the value for the key `GIT_CRYPT_KEY`.
-5. Use `sliteteam/github-action-git-crypt-unlock@1.0.2` and supply `GIT_CRYPT_KEY` from secrets
-6. Remove the secrets file (extra security).
+5. On github workflow, use `sliteteam/github-action-git-crypt-unlock@1.0.2` and supply `GIT_CRYPT_KEY` from github secrets
+6. After using your secrets on the workflow, remove the secrets file (for extra security).
 
 This repo (intentionally) exposes the secret in the [github workflow](https://github.com/tianhuil/git-crypt-demo/runs/1545130895?check_suite_focus=true) but this remains encrypted in [git](https://github.com/tianhuil/git-crypt-demo/blob/main/file.secret).
 
