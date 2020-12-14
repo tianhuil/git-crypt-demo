@@ -58,6 +58,13 @@ To view the key fingerprint (e.g. when exchanging public keys), you can check th
 gpg --fingerprint another@example.com
 ```
 
+## Staging secrets
+The rules for what are set as a secret in `.gitattributes` are subtle and behave unexpectedly.  When making changes to secrets, always run
+```bash
+git crypt status -e
+```
+to view which files are secrets.
+
 ## Signing and trusting keys
 When you get a key, you need to both sign and trust it to use for git crypt (presumably after checking the fingerprint).
 ```
