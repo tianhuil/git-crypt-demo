@@ -30,6 +30,7 @@ This demo shows how to make [git-crypt](https://github.com/AGWA/git-crypt) work 
    gpg --export -a another@example.com > public.key
    # send the key through a public channel
    gpg --import public.key
+   gpg --sign-key another@example.com
    git crypt add-gpg-user another@example.com
    ```
 4. Export a symmetric key for github
@@ -50,6 +51,12 @@ git config [--global] alias.crypt-users "! git log  .git-crypt/keys/*/*/*.gpg | 
 to add the config either locally or globally.
 
 Based on [https://github.com/AGWA/git-crypt/issues/39](this Github Issue).
+
+## View key fingerprint
+To view the key fingerprint (e.g. when exchanging public keys), you can check the fingerprints:
+```
+gpg --fingerprint another@example.com
+```
 
 ## Resources:
 -[GPG Cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/)
