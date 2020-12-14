@@ -53,10 +53,21 @@ to add the config either locally or globally.
 Based on [https://github.com/AGWA/git-crypt/issues/39](this Github Issue).
 
 ## View key fingerprint
-To view the key fingerprint (e.g. when exchanging public keys), you can check the fingerprints:
+To view the key fingerprint (e.g. when exchanging public keys), you can check the fingerprint of the original and the copy you received:
 ```
 gpg --fingerprint another@example.com
 ```
+
+## Signing and trusting keys
+When you get a key, you need to both sign and trust it to use for git crypt (presumably after checking the fingerprint).
+```
+gpg --edit-key another@example.com
+>>> trust
+>>> quit
+gpg --sign-key another@example.com
+```
+
+And follow the instructions [for trusting here](https://www.gnupg.org/gph/en/manual/x334.html).
 
 ## Resources:
 -[GPG Cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/)
