@@ -76,5 +76,9 @@ gpg --sign-key another@example.com
 
 And follow the instructions [for trusting here](https://www.gnupg.org/gph/en/manual/x334.html).
 
+## How adding gpg keys works under the hood:
+From [these](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103765784) [comments](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103778947):
+> git-crypt supports two forms of encryption -- symmetric key and GPG [...] Technically, a symmetric key is used for encryption of files in every case - it is just that in the second case the symmetric key itself is encrypted with one or more GPG keys and those copies of the encrypted key are committed to the repository, allowing a user whose GPG key was "added" to decrypt the encrypted contents in the repository using nothing more than their private key and the repository itself.
+
 ## Resources:
 -[GPG Cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/)
