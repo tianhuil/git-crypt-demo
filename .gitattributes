@@ -1,2 +1,2 @@
-development.secret filter=git-crypt-development diff=git-crypt-development
+development.secret filter=git-crypt-development-1 diff=git-crypt-development-1
 production.secret filter=git-crypt-production diff=git-crypt-production
