@@ -19,16 +19,16 @@ This demo shows how to make [git-crypt](https://github.com/AGWA/git-crypt) work 
    gpg --passphrase '' --quick-gen-key 'user@example.com'
    ```
 
-2. Initialize the repository
+2. Initialize the repository (for development key but you can use whichever you wish)
 
    ```bash
-   git crypt init
+   git-crypt init -k development
    ```
 
-3. Add every engineer's public key `git crypt` to enable them to decrypt the secret.  On your computer, you can just do this:
+3. Add every engineer's public key to git crypt to enable them to decrypt the secret.  On your computer, you can just do this:
 
    ```bash
-   git crypt add-gpg-user me@example.com
+   git-crypt add-gpg-user -k development me@example.com
    ```
 
    To add a key from another computer, do this:
@@ -38,18 +38,19 @@ This demo shows how to make [git-crypt](https://github.com/AGWA/git-crypt) work 
    # send the key through a public channel
    gpg --import public.key
    gpg --sign-key another@example.com
-   git crypt add-gpg-user another@example.com
+   git-crypt add-gpg-user -k development another@example.com
    ```
 
 4. Export a symmetric key for github
 
    ```bash
-    git crypt export-key -k development - | base64 | pbcopy
+    git-crypt export-key -k development - | base64 | pbcopy
    ```
 
    Paste that into the secrets of your repository (the one for this repository is at <https://github.com/tianhuil/git-crypt-demo/settings/secrets/>  actions) as the value for the key `GIT_CRYPT_KEY`.
 
 5. On github workflow, use `sliteteam/github-action-git-crypt-unlock@1.0.2` and supply `GIT_CRYPT_KEY` from github secrets
+
 6. After using your secrets on the workflow, remove the secrets file (for extra security).
 
 This repo (intentionally) exposes the secret in the [github workflow](https://github.com/tianhuil/git-crypt-demo/runs/1545130895?check_suite_focus=true) but this [remains encrypted in git](https://github.com/tianhuil/git-crypt-demo/blob/main/file.secret).
@@ -79,7 +80,7 @@ gpg --fingerprint another@example.com
 The rules for what are set as a secret in `.gitattributes` are subtle and behave unexpectedly.  When making changes to secrets, always run
 
 ```bash
-git crypt status -e
+git-crypt status -e
 ```
 
 to view which files are secrets.
