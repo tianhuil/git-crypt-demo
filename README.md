@@ -51,7 +51,13 @@ This demo shows how to make [git-crypt](https://github.com/AGWA/git-crypt) work 
 
 5. On github workflow, use `sliteteam/github-action-git-crypt-unlock@1.0.2` and supply `GIT_CRYPT_KEY` from github secrets
 
-6. After using your secrets on the workflow, remove the secrets file (for extra security).
+6. If you need to unlock secrets in an environment that does not support Github Actions (e.g. Vercel), follow step (4) above to add `GIT_CRYPT_KEY` as a secret to that environment.  Then run the following in a bash script to unlock git crypt:
+
+   ```bash
+   echo "$GIT_CRYPT_KEY" | base64 -d > ./git-crypt-key
+   git-crypt unlock ./git-crypt-key
+   rm ./git-crypt-key
+   ```
 
 This repo (intentionally) exposes the secret in the [github workflow](https://github.com/tianhuil/git-crypt-demo/runs/1545130895?check_suite_focus=true) but this [remains encrypted in git](https://github.com/tianhuil/git-crypt-demo/blob/main/file.secret).
 
