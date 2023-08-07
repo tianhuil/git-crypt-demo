@@ -149,7 +149,7 @@ The protocol for rotating secrets is to keep the secrets file unchanged but rota
 
    ```bash
    git crypt lock -k development-v4
-   git diff main
+   git diff main -- development.secret
    git crypt unlock
    ```
 
