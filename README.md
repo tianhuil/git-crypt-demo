@@ -111,9 +111,13 @@ From [these](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103765784)
 
 ## Rotating secrets
 
-The protocol for rotating secrets is to keep the secrets file unchanged but rotate the key.  Specifically, it is to run the following 3 commits:
+The protocol for rotating secrets is to keep the secrets file unchanged but
+rotate the key.  Specifically, it is to run the following steps that generates 3
+commits.  The below steps rotate the file `development.secret` to the key
+`development-v4`.  For more details, see the pull request
+<https://github.com/tianhuil/git-crypt-demo/pull/3>.
 
-1. Remove secret file, e.g. 
+1. Remove secret file, e.g.:
 
    ```bash
    cp development.secret development.secret.tmp
@@ -152,8 +156,6 @@ The protocol for rotating secrets is to keep the secrets file unchanged but rota
    git diff main -- development.secret
    git crypt unlock
    ```
-
-For more details, see <https://github.com/tianhuil/git-crypt-demo/pull/1>.
 
 ## Resources
 
