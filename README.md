@@ -159,6 +159,18 @@ commits.  The below steps rotate the file `development.secret` to the key
    git crypt unlock
    ```
 
+   While the repository is unlocked, you should also be able to checkout older
+   branches that use the old symmetric key, thus transparently preserving
+   backward compatibility.
+
+   ```bash
+   more .gitattribute  # new key
+   more development.secret  # secret visible
+   git checkout main
+   more .gitattribute  # old key
+   more development.secret  # same secret visible
+   ```
+
 6. To add the secret to an external service, copy the command to the clipboard
 
    ```bash
