@@ -109,6 +109,62 @@ And follow the instructions [for trusting here](https://www.gnupg.org/gph/en/man
 From [these](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103765784) [comments](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103778947):
 > git-crypt supports two forms of encryption -- symmetric key and GPG [...] Technically, a symmetric key is used for encryption of files in every case - it is just that in the second case the symmetric key itself is encrypted with one or more GPG keys and those copies of the encrypted key are committed to the repository, allowing a user whose GPG key was "added" to decrypt the encrypted contents in the repository using nothing more than their private key and the repository itself.
 
+## Rotating secrets
+
+The protocol for rotating secrets is to keep the secrets file unchanged but
+rotate the key.  Specifically, it is to run the following steps that generates 3
+commits.  The below steps rotate the file `development.secret` to the key
+`development-v4`.  For more details, see the pull request
+<https://github.com/tianhuil/git-crypt-demo/pull/3>.
+
+1. Remove secret file, e.g.:
+
+   ```bash
+   cp development.secret development.secret.tmp
+   # remove the `development.secret` line from `.gitattributes` and
+   git add development.secret .gitattributes
+   git commit -m 'remove development.secret'
+   ```
+
+2. Generate new symmetric key and grant permission to your private asymmetric
+   GPG key (the `add-gpg-user` command automatically commits the GPG key):
+
+   ```bash
+   git-crypt init -k development-v4
+   git-crypt add-gpg-user -k development-v4 alice@example.com
+   ```
+
+3. Add the old secret back and add the filter for the new key to
+   `.gitattributes`:
+
+   ```bash
+   cp development.secret.tmp development.secret
+   # add the `development.secret` line back `.gitattributes` with the new key:
+   echo "development.secret filter=git-crypt-development-v4 diff=git-crypt-development-v4" >> .gitattributes
+   ```
+
+4. Before committing the changes from step (3), verify that the secrets file is
+   encrypted:
+
+   ```bash
+   git crypt status -e
+   ```
+
+5. Before pushing the changes to Github, lock the files and diff to ensure that
+   the keys have changed
+
+   ```bash
+   git crypt lock -k development-v4
+   git diff main -- development.secret
+   git crypt unlock
+   ```
+
+6. To add the secret to an external service, copy the command to the clipboard
+
+   ```bash
+   git-crypt export-key -k development-v4 - | base64 | pbcopy
+   ```
+
 ## Resources
 
 -[GPG Cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/)
