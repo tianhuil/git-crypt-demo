@@ -134,15 +134,17 @@ commits.  The below steps rotate the file `development.secret` to the key
    git-crypt add-gpg-user -k development-v4 alice@example.com
    ```
 
-3. Add the old secret back
+3. Add the old secret back and add the filter for the new key to
+   `.gitattributes`:
 
    ```bash
    cp development.secret.tmp development.secret
    # add the `development.secret` line back `.gitattributes` with the new key:
-   echo "development.secret filter=git-crypt-development-v3 diff=git-crypt-development-v3" >> .gitattributes
+   echo "development.secret filter=git-crypt-development-v4 diff=git-crypt-development-v4" >> .gitattributes
    ```
 
-4. Before committing the changes from step (3), verify that the secrets file is encrypted:
+4. Before committing the changes from step (3), verify that the secrets file is
+   encrypted:
 
    ```bash
    git crypt status -e
@@ -155,6 +157,12 @@ commits.  The below steps rotate the file `development.secret` to the key
    git crypt lock -k development-v4
    git diff main -- development.secret
    git crypt unlock
+   ```
+
+6. To add the secret to an external service, copy the command to the clipboard
+
+   ```bash
+   git-crypt export-key -k development-v4 - | base64 | pbcopy
    ```
 
 ## Resources
