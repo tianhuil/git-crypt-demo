@@ -112,22 +112,12 @@ From [these](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103765784)
 ## Rotating secrets
 
 The protocol for rotating secrets is to keep the secrets file unchanged but
-rotate the key.  Specifically, it is to run the following steps that generates 3
-commits.  The below steps rotate the file `development.secret` to the key
+rotate the key.  Specifically, it is to run the following steps that generates 1
+commit.  The below steps rotate the file `development.secret` to the key
 `development-v4`.  For more details, see the pull request
 <https://github.com/tianhuil/git-crypt-demo/pull/3>.
 
-1. Remove secret file, e.g.:
-
-   ```bash
-   # make sure *.nogit* is in .gitignore
-   mv development.secret development.secret.nogit
-   # remove the `development.secret` line from `.gitattributes` and
-   git add development.secret .gitattributes
-   git commit -m 'remove development.secret'
-   ```
-
-2. Generate new symmetric key and grant permission to your private asymmetric
+1. Generate new symmetric key and grant permission to your private asymmetric
    GPG key (the `add-gpg-user` command automatically commits the GPG key):
 
    ```bash
@@ -135,24 +125,32 @@ commits.  The below steps rotate the file `development.secret` to the key
    git-crypt add-gpg-user -k development-v4 alice@example.com
    ```
 
-3. Add the old secret back and add the filter for the new key to
-   `.gitattributes`:
+2. Update the line in `.gitattributes` to use the latest key.
+
+   ```text
+   # .gitattributes
+
+   development.secret filter=git-crypt-development-v4 diff=git-crypt-development-v4
+   ```
+
+3. Re-encrypt the file
 
    ```bash
-   cp development.secret.nogit development.secret
-   # add the `development.secret` line back `.gitattributes` with the new key:
-   echo "development.secret filter=git-crypt-development-v4 diff=git-crypt-development-v4" >> .gitattributes
+   mv development.secret .tmp
+   mv .tmp development.secret
    ```
 
 4. Before committing the changes from step (3), verify that the secrets file is
    encrypted:
 
    ```bash
-   git crypt status -e
+   git status # make sure development.secret has binary changes
+   git crypt status -e # make sure development.secret is encrypted
+   # commit the changes
    ```
 
 5. Before pushing the changes to Github, lock the files and diff to ensure that
-   the keys have changed
+   the keys has changed
 
    ```bash
    git crypt lock -k development-v4
