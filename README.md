@@ -163,11 +163,13 @@ commits.  The below steps rotate the file `development.secret` to the key
    backward compatibility.
 
    ```bash
+   git diff main -- development.secret
+   
    more .gitattributes  # new key
-   more development.secret  # secret visible
+   more development.secret  # should be binary
    git checkout main
    more .gitattributes  # old key
-   more development.secret  # same secret visible
+   more development.secret  # should be binary
    ```
 
 6. To add the secret to an external service, copy the command to the clipboard
