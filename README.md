@@ -112,8 +112,8 @@ From [these](https://github.com/AGWA/git-crypt/issues/47#issuecomment-103765784)
 ## Rotating secrets
 
 The protocol for rotating secrets is to keep the secrets file unchanged but
-rotate the key.  Specifically, it is to run the following steps that generates 1
-commit.  The below steps rotate the file `development.secret` to the key
+rotate the key.  Specifically, it is to run the following steps that generates 2
+commits.  The below steps rotate the file `development.secret` to the key
 `development-v4`.  For more details, see the pull request
 <https://github.com/tianhuil/git-crypt-demo/pull/3>.
 
@@ -122,7 +122,7 @@ commit.  The below steps rotate the file `development.secret` to the key
 
    ```bash
    git-crypt init -k development-v4
-   git-crypt add-gpg-user -k development-v4 alice@example.com
+   git-crypt add-gpg-user -k development-v4 alice@example.com # commit generated
    ```
 
 2. Update the line in `.gitattributes` to use the latest key.
@@ -163,10 +163,10 @@ commit.  The below steps rotate the file `development.secret` to the key
    backward compatibility.
 
    ```bash
-   more .gitattribute  # new key
+   more .gitattributes  # new key
    more development.secret  # secret visible
    git checkout main
-   more .gitattribute  # old key
+   more .gitattributes  # old key
    more development.secret  # same secret visible
    ```
 
