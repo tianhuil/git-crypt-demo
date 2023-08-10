@@ -120,7 +120,8 @@ commits.  The below steps rotate the file `development.secret` to the key
 1. Remove secret file, e.g.:
 
    ```bash
-   cp development.secret development.secret.tmp
+   # make sure *.nogit* is in .gitignore
+   mv development.secret development.secret.nogit
    # remove the `development.secret` line from `.gitattributes` and
    git add development.secret .gitattributes
    git commit -m 'remove development.secret'
@@ -138,7 +139,7 @@ commits.  The below steps rotate the file `development.secret` to the key
    `.gitattributes`:
 
    ```bash
-   cp development.secret.tmp development.secret
+   cp development.secret.nogit development.secret
    # add the `development.secret` line back `.gitattributes` with the new key:
    echo "development.secret filter=git-crypt-development-v4 diff=git-crypt-development-v4" >> .gitattributes
    ```
